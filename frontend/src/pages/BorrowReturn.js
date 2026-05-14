@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { getBooks, getBorrowers, getTransactions, borrowBook, returnBook } from '../api';
+import { getBooks } from '../services/bookService';
+import { getBorrowers } from '../services/borrowerService';
+import { getTransactions, borrowBook, returnBook } from '../services/transactionService';
 
 function BorrowReturn() {
   const [books, setBooks] = useState([]);

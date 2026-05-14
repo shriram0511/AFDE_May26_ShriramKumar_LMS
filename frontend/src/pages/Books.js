@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getBooks, createBook, updateBook, deleteBook } from '../api';
+import { getBooks, createBook, updateBook, deleteBook } from '../services/bookService';
 
 const emptyForm = { title: '', author: '', category: '', isbn: '', availability_status: 'available' };
 

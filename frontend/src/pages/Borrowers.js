@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getBorrowers, createBorrower, updateBorrower, deleteBorrower } from '../api';
+import { getBorrowers, createBorrower, updateBorrower, deleteBorrower } from '../services/borrowerService';
 
 const emptyForm = { borrower_name: '', email: '', phone: '' };
 

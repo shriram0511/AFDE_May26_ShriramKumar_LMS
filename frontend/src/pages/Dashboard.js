@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { getBooks, getTransactions, getBorrowers } from '../api';
+import { getBooks } from '../services/bookService';
+import { getBorrowers } from '../services/borrowerService';
+import { getTransactions } from '../services/transactionService';
 
 function Dashboard() {
   const [books, setBooks] = useState([]);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { searchBooks } from '../api';
+import { searchBooks } from '../services/bookService';
 
 function Search() {
   const [query, setQuery] = useState('');
