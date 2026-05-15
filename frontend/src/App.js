@@ -31,7 +31,7 @@ function App() {
         )}
         {role === 'user' && (
           <>
-            <Route path="/borrow-return" element={<BorrowReturn />} />
+            <Route path="/borrow-return" element={<BorrowReturn role="user" />} />
             <Route path="/search" element={<Search />} />
             <Route path="*" element={<Navigate to="/borrow-return" />} />
           </>
