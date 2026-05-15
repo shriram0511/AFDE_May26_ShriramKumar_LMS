@@ -59,7 +59,7 @@ function BorrowReturn() {
   const availableBooks = books.filter(b => b.availability_status === 'available');
   const bookMap = Object.fromEntries(books.map(b => [b.book_id, b.title]));
   const borrowerMap = Object.fromEntries(borrowers.map(b => [b.borrower_id, b.borrower_name]));
-  const activeTransactions = transactions.filter(tx => !tx.return_date && bookMap[tx.book_id]);
+  const activeTransactions = transactions.filter(tx => !tx.return_date && bookMap[tx.book_id] && borrowerMap[tx.borrower_id]);
 
   return (
     <div className="page">
@@ -111,7 +111,7 @@ function BorrowReturn() {
                 <option value="">-- Choose transaction --</option>
                 {activeTransactions.map(tx => (
                   <option key={tx.transaction_id} value={tx.transaction_id}>
-                    #{tx.transaction_id} — {bookMap[tx.book_id] || `Book #${tx.book_id}`} / {borrowerMap[tx.borrower_id] || `Borrower #${tx.borrower_id}`}
+                    #{tx.transaction_id} — {bookMap[tx.book_id] || `Book #${tx.book_id}`} / {borrowerMap[tx.borrower_id] || <span style={{ color: '#e74c3c', fontStyle: 'italic' }}>[Deleted]</span>}
                   </option>
                 ))}
               </select>
@@ -143,7 +143,7 @@ function BorrowReturn() {
                 <tr key={tx.transaction_id}>
                   <td>{tx.transaction_id}</td>
                   <td>{bookMap[tx.book_id] || <span style={{ color: '#e74c3c', fontStyle: 'italic' }}>[Deleted]</span>}</td>
-                  <td>{borrowerMap[tx.borrower_id] || `Borrower #${tx.borrower_id}`}</td>
+                  <td>{borrowerMap[tx.borrower_id] || <span style={{ color: '#e74c3c', fontStyle: 'italic' }}>[Deleted]</span>}</td>
                   <td>{new Date(tx.borrow_date).toLocaleDateString()}</td>
                   <td>{tx.return_date ? new Date(tx.return_date).toLocaleDateString() : '—'}</td>
                   <td>

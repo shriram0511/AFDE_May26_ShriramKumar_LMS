@@ -85,6 +85,15 @@ def delete_borrower(db: Session, borrower_id: int):
     db_borrower = get_borrower(db, borrower_id)
     if not db_borrower:
         return None
+    active_transactions = db.query(models.Transaction).filter(
+        models.Transaction.borrower_id == borrower_id,
+        models.Transaction.return_date == None
+    ).all()
+    for tx in active_transactions:
+        tx.return_date = datetime.now()
+        book = get_book(db, tx.book_id)
+        if book:
+            book.availability_status = "available"
     db.delete(db_borrower)
     db.commit()
     return db_borrower

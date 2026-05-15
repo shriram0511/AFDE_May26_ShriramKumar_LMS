@@ -81,7 +81,7 @@ function Dashboard() {
                   <tr key={tx.transaction_id}>
                     <td>{tx.transaction_id}</td>
                     <td>{bookMap[tx.book_id] || <span style={{ color: '#e74c3c', fontStyle: 'italic' }}>[Deleted]</span>}</td>
-                    <td>{borrowerMap[tx.borrower_id] || `Borrower #${tx.borrower_id}`}</td>
+                    <td>{borrowerMap[tx.borrower_id] || <span style={{ color: '#e74c3c', fontStyle: 'italic' }}>[Deleted]</span>}</td>
                     <td>{new Date(tx.borrow_date).toLocaleDateString()}</td>
                     <td>{tx.return_date ? new Date(tx.return_date).toLocaleDateString() : '—'}</td>
                     <td>
