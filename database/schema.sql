@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS transactions (
     borrower_id INTEGER NOT NULL,
     borrow_date DATETIME NOT NULL,
     return_date DATETIME,
+    status TEXT NOT NULL DEFAULT 'active',
     FOREIGN KEY (book_id) REFERENCES books(book_id),
     FOREIGN KEY (borrower_id) REFERENCES borrowers(borrower_id)
 );

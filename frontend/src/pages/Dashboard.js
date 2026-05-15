@@ -3,6 +3,21 @@ import { getBooks } from '../services/bookService';
 import { getBorrowers } from '../services/borrowerService';
 import { getTransactions } from '../services/transactionService';
 
+const statusLabels = {
+  active: 'Active',
+  returned: 'Returned',
+  book_deleted: 'Book Deleted',
+  borrower_deleted: 'Borrower Deleted',
+};
+
+function StatusBadge({ status }) {
+  return (
+    <span className={`badge badge-${status}`}>
+      {statusLabels[status] || status}
+    </span>
+  );
+}
+
 function Dashboard() {
   const [books, setBooks] = useState([]);
   const [transactions, setTransactions] = useState([]);
@@ -80,15 +95,11 @@ function Dashboard() {
                 {recent.map(tx => (
                   <tr key={tx.transaction_id}>
                     <td>{tx.transaction_id}</td>
-                    <td>{bookMap[tx.book_id] || <span style={{ color: '#e74c3c', fontStyle: 'italic' }}>[Deleted]</span>}</td>
-                    <td>{borrowerMap[tx.borrower_id] || <span style={{ color: '#e74c3c', fontStyle: 'italic' }}>[Deleted]</span>}</td>
+                    <td>{bookMap[tx.book_id] || '—'}</td>
+                    <td>{borrowerMap[tx.borrower_id] || '—'}</td>
                     <td>{new Date(tx.borrow_date).toLocaleDateString()}</td>
                     <td>{tx.return_date ? new Date(tx.return_date).toLocaleDateString() : '—'}</td>
-                    <td>
-                      <span className={`badge ${tx.return_date ? 'badge-available' : 'badge-borrowed'}`}>
-                        {tx.return_date ? 'Returned' : 'Active'}
-                      </span>
-                    </td>
+                    <td><StatusBadge status={tx.status} /></td>
                   </tr>
                 ))}
               </tbody>

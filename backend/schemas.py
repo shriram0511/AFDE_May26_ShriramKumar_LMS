@@ -58,6 +58,7 @@ class Transaction(BaseModel):
     borrower_id: int
     borrow_date: datetime
     return_date: Optional[datetime] = None
+    status: str = "active"
 
     class Config:
         from_attributes = True

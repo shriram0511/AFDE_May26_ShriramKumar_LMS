@@ -31,3 +31,4 @@ class Transaction(Base):
     borrower_id = Column(Integer, nullable=False)
     borrow_date = Column(DateTime, default=func.now())
     return_date = Column(DateTime, nullable=True)
+    status = Column(String, default="active")

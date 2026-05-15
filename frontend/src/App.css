@@ -167,8 +167,12 @@ tbody td {
   font-weight: 600;
 }
 
-.badge-available { background: #d5f5e3; color: #1e8449; }
-.badge-borrowed  { background: #fde8d8; color: #c0392b; }
+.badge-available      { background: #d5f5e3; color: #1e8449; }
+.badge-borrowed       { background: #fde8d8; color: #c0392b; }
+.badge-active         { background: #fde8d8; color: #c0392b; }
+.badge-returned       { background: #d5f5e3; color: #1e8449; }
+.badge-book_deleted   { background: #f9ebea; color: #922b21; }
+.badge-borrower_deleted { background: #f9ebea; color: #922b21; }
 
 /* Action buttons in table */
 .action-btns {

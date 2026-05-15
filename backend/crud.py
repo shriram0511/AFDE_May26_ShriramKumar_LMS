@@ -38,7 +38,7 @@ def delete_book(db: Session, book_id: int):
     db.query(models.Transaction).filter(
         models.Transaction.book_id == book_id,
         models.Transaction.return_date == None
-    ).update({"return_date": datetime.now()})
+    ).update({"return_date": datetime.now(), "status": "book_deleted"})
     db.delete(db_book)
     db.commit()
     return db_book
@@ -91,6 +91,7 @@ def delete_borrower(db: Session, borrower_id: int):
     ).all()
     for tx in active_transactions:
         tx.return_date = datetime.now()
+        tx.status = "borrower_deleted"
         book = get_book(db, tx.book_id)
         if book:
             book.availability_status = "available"
@@ -122,6 +123,7 @@ def return_book(db: Session, transaction_id: int):
     if not transaction or transaction.return_date is not None:
         return None
     transaction.return_date = datetime.now()
+    transaction.status = "returned"
     book = get_book(db, transaction.book_id)
     if book:
         book.availability_status = "available"
