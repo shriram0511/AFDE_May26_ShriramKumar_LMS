@@ -129,4 +129,4 @@ Screenshots are available in the [`screenshots/`](screenshots/) folder.
 |-------|---------|
 | books | book_id, title, author, category, isbn, availability_status |
 | borrowers | borrower_id, borrower_name, email, phone |
-| transactions | transaction_id, book_id, borrower_id, borrow_date, return_date |
+| transactions | transaction_id, book_id, borrower_id, book_title, borrower_name, borrow_date, return_date |

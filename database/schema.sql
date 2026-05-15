@@ -21,6 +21,8 @@ CREATE TABLE IF NOT EXISTS transactions (
     transaction_id INTEGER PRIMARY KEY AUTOINCREMENT,
     book_id INTEGER NOT NULL,
     borrower_id INTEGER NOT NULL,
+    book_title TEXT NOT NULL,
+    borrower_name TEXT NOT NULL,
     borrow_date DATETIME NOT NULL,
     return_date DATETIME,
     FOREIGN KEY (book_id) REFERENCES books(book_id),

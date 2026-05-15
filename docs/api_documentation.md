@@ -173,6 +173,8 @@ Borrow an available book.
   "transaction_id": 1,
   "book_id": 1,
   "borrower_id": 1,
+  "book_title": "Clean Code",
+  "borrower_name": "Rahul Sharma",
   "borrow_date": "2026-05-15T10:00:00",
   "return_date": null
 }
@@ -196,6 +198,8 @@ Return a borrowed book.
   "transaction_id": 1,
   "book_id": 1,
   "borrower_id": 1,
+  "book_title": "Clean Code",
+  "borrower_name": "Rahul Sharma",
   "borrow_date": "2026-05-15T10:00:00",
   "return_date": "2026-05-15T14:00:00"
 }
@@ -213,6 +217,8 @@ Retrieve all transactions.
     "transaction_id": 1,
     "book_id": 1,
     "borrower_id": 1,
+    "book_title": "Clean Code",
+    "borrower_name": "Rahul Sharma",
     "borrow_date": "2026-05-15T10:00:00",
     "return_date": "2026-05-15T14:00:00"
   }
