@@ -27,7 +27,9 @@ def update_borrower(borrower_id: int, borrower: schemas.BorrowerUpdate, db: Sess
 
 @router.delete("/{borrower_id}")
 def delete_borrower(borrower_id: int, db: Session = Depends(get_db)):
-    deleted = crud.delete_borrower(db, borrower_id)
-    if not deleted:
+    result = crud.delete_borrower(db, borrower_id)
+    if result is None:
         raise HTTPException(status_code=404, detail="Borrower not found")
+    if result == "active":
+        raise HTTPException(status_code=400, detail="Borrower has books that are not yet returned. Please return all books before deleting.")
     return {"message": "Borrower deleted successfully"}

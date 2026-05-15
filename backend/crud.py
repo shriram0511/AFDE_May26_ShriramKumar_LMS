@@ -35,10 +35,12 @@ def delete_book(db: Session, book_id: int):
     db_book = get_book(db, book_id)
     if not db_book:
         return None
-    db.query(models.Transaction).filter(
+    active = db.query(models.Transaction).filter(
         models.Transaction.book_id == book_id,
         models.Transaction.return_date == None
-    ).update({"return_date": datetime.now(), "status": "book_deleted"})
+    ).first()
+    if active:
+        return "active"
     db.delete(db_book)
     db.commit()
     return db_book
@@ -85,16 +87,12 @@ def delete_borrower(db: Session, borrower_id: int):
     db_borrower = get_borrower(db, borrower_id)
     if not db_borrower:
         return None
-    active_transactions = db.query(models.Transaction).filter(
+    active = db.query(models.Transaction).filter(
         models.Transaction.borrower_id == borrower_id,
         models.Transaction.return_date == None
-    ).all()
-    for tx in active_transactions:
-        tx.return_date = datetime.now()
-        tx.status = "borrower_deleted"
-        book = get_book(db, tx.book_id)
-        if book:
-            book.availability_status = "available"
+    ).first()
+    if active:
+        return "active"
     db.delete(db_borrower)
     db.commit()
     return db_borrower
@@ -102,11 +100,14 @@ def delete_borrower(db: Session, borrower_id: int):
 
 def borrow_book(db: Session, book_id: int, borrower_id: int):
     book = get_book(db, book_id)
+    borrower = get_borrower(db, borrower_id)
     if not book or book.availability_status != "available":
         return None
     transaction = models.Transaction(
         book_id=book_id,
         borrower_id=borrower_id,
+        book_title=book.title,
+        borrower_name=borrower.borrower_name,
         borrow_date=datetime.now()
     )
     db.add(transaction)
@@ -123,7 +124,6 @@ def return_book(db: Session, transaction_id: int):
     if not transaction or transaction.return_date is not None:
         return None
     transaction.return_date = datetime.now()
-    transaction.status = "returned"
     book = get_book(db, transaction.book_id)
     if book:
         book.availability_status = "available"

@@ -44,7 +44,9 @@ def update_book(book_id: int, book: schemas.BookUpdate, db: Session = Depends(ge
 
 @router.delete("/{book_id}")
 def delete_book(book_id: int, db: Session = Depends(get_db)):
-    deleted = crud.delete_book(db, book_id)
-    if not deleted:
+    result = crud.delete_book(db, book_id)
+    if result is None:
         raise HTTPException(status_code=404, detail="Book not found")
+    if result == "active":
+        raise HTTPException(status_code=400, detail="Book is currently borrowed by a user. Please return it before deleting.")
     return {"message": "Book deleted successfully"}

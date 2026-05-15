@@ -85,7 +85,7 @@ function Borrowers() {
   function handleDelete(id) {
     if (!window.confirm('Delete this borrower?')) return;
     deleteBorrower(id).then(() => { load(); showMsg('Borrower deleted.'); })
-      .catch(() => showMsg('Delete failed.', 'error'));
+      .catch((err) => showMsg(err.response?.data?.detail || 'Delete failed.', 'error'));
   }
 
   return (

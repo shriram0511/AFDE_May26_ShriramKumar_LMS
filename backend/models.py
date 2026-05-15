@@ -29,6 +29,7 @@ class Transaction(Base):
     transaction_id = Column(Integer, primary_key=True, index=True)
     book_id = Column(Integer, nullable=False)
     borrower_id = Column(Integer, nullable=False)
+    book_title = Column(String, nullable=False)
+    borrower_name = Column(String, nullable=False)
     borrow_date = Column(DateTime, default=func.now())
     return_date = Column(DateTime, nullable=True)
-    status = Column(String, default="active")

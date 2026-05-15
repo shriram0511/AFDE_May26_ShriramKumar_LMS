@@ -3,21 +3,6 @@ import { getBooks } from '../services/bookService';
 import { getBorrowers } from '../services/borrowerService';
 import { getTransactions } from '../services/transactionService';
 
-const statusLabels = {
-  active: 'Active',
-  returned: 'Returned',
-  book_deleted: 'Book Deleted',
-  borrower_deleted: 'Borrower Deleted',
-};
-
-function StatusBadge({ status }) {
-  return (
-    <span className={`badge badge-${status}`}>
-      {statusLabels[status] || status}
-    </span>
-  );
-}
-
 function Dashboard() {
   const [books, setBooks] = useState([]);
   const [transactions, setTransactions] = useState([]);
@@ -37,9 +22,6 @@ function Dashboard() {
   const totalBooks = books.length;
   const availableBooks = books.filter(b => b.availability_status === 'available').length;
   const borrowedBooks = books.filter(b => b.availability_status === 'borrowed').length;
-
-  const bookMap = Object.fromEntries(books.map(b => [b.book_id, b.title]));
-  const borrowerMap = Object.fromEntries(borrowers.map(b => [b.borrower_id, b.borrower_name]));
 
   const recent = [...transactions]
     .sort((a, b) => new Date(b.borrow_date) - new Date(a.borrow_date))
@@ -95,11 +77,15 @@ function Dashboard() {
                 {recent.map(tx => (
                   <tr key={tx.transaction_id}>
                     <td>{tx.transaction_id}</td>
-                    <td>{bookMap[tx.book_id] || '—'}</td>
-                    <td>{borrowerMap[tx.borrower_id] || '—'}</td>
+                    <td>{tx.book_title}</td>
+                    <td>{tx.borrower_name}</td>
                     <td>{new Date(tx.borrow_date).toLocaleDateString()}</td>
                     <td>{tx.return_date ? new Date(tx.return_date).toLocaleDateString() : '—'}</td>
-                    <td><StatusBadge status={tx.status} /></td>
+                    <td>
+                      <span className={`badge ${tx.return_date ? 'badge-available' : 'badge-borrowed'}`}>
+                        {tx.return_date ? 'Returned' : 'Active'}
+                      </span>
+                    </td>
                   </tr>
                 ))}
               </tbody>

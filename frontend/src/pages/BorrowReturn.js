@@ -3,21 +3,6 @@ import { getBooks } from '../services/bookService';
 import { getBorrowers } from '../services/borrowerService';
 import { getTransactions, borrowBook, returnBook } from '../services/transactionService';
 
-const statusLabels = {
-  active: 'Active',
-  returned: 'Returned',
-  book_deleted: 'Book Deleted',
-  borrower_deleted: 'Borrower Deleted',
-};
-
-function StatusBadge({ status }) {
-  return (
-    <span className={`badge badge-${status}`}>
-      {statusLabels[status] || status}
-    </span>
-  );
-}
-
 function BorrowReturn() {
   const [books, setBooks] = useState([]);
   const [borrowers, setBorrowers] = useState([]);
@@ -72,9 +57,7 @@ function BorrowReturn() {
   }
 
   const availableBooks = books.filter(b => b.availability_status === 'available');
-  const bookMap = Object.fromEntries(books.map(b => [b.book_id, b.title]));
-  const borrowerMap = Object.fromEntries(borrowers.map(b => [b.borrower_id, b.borrower_name]));
-  const activeTransactions = transactions.filter(tx => !tx.return_date && bookMap[tx.book_id] && borrowerMap[tx.borrower_id]);
+  const activeTransactions = transactions.filter(tx => !tx.return_date);
 
   return (
     <div className="page">
@@ -126,7 +109,7 @@ function BorrowReturn() {
                 <option value="">-- Choose transaction --</option>
                 {activeTransactions.map(tx => (
                   <option key={tx.transaction_id} value={tx.transaction_id}>
-                    #{tx.transaction_id} — {bookMap[tx.book_id] || `Book #${tx.book_id}`} / {borrowerMap[tx.borrower_id] || <span style={{ color: '#e74c3c', fontStyle: 'italic' }}>[Deleted]</span>}
+                    #{tx.transaction_id} — {tx.book_title} / {tx.borrower_name}
                   </option>
                 ))}
               </select>
@@ -157,11 +140,15 @@ function BorrowReturn() {
               {transactions.map(tx => (
                 <tr key={tx.transaction_id}>
                   <td>{tx.transaction_id}</td>
-                  <td>{bookMap[tx.book_id] || '—'}</td>
-                  <td>{borrowerMap[tx.borrower_id] || '—'}</td>
+                  <td>{tx.book_title}</td>
+                  <td>{tx.borrower_name}</td>
                   <td>{new Date(tx.borrow_date).toLocaleDateString()}</td>
                   <td>{tx.return_date ? new Date(tx.return_date).toLocaleDateString() : '—'}</td>
-                  <td><StatusBadge status={tx.status} /></td>
+                  <td>
+                    <span className={`badge ${tx.return_date ? 'badge-available' : 'badge-borrowed'}`}>
+                      {tx.return_date ? 'Returned' : 'Active'}
+                    </span>
+                  </td>
                 </tr>
               ))}
             </tbody>

@@ -111,7 +111,7 @@ function Books() {
   function handleDelete(id) {
     if (!window.confirm('Delete this book?')) return;
     deleteBook(id).then(() => { load(); showMsg('Book deleted.'); })
-      .catch(() => showMsg('Delete failed.', 'error'));
+      .catch((err) => showMsg(err.response?.data?.detail || 'Delete failed.', 'error'));
   }
 
   return (
