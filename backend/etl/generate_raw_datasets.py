@@ -84,12 +84,17 @@ def generate_transactions():
         return_date = (borrow_date + timedelta(days=random.randint(1, 30))
                        if random.random() < 0.7 else None)
         rows.append({
-            "transaction_id": i + 1,
+            "transaction_id": 0,  # assigned after sorting
             "book_id":        random.choice(valid_book_ids),
             "borrower_id":    random.choice(valid_borrower_ids),
             "borrow_date":    borrow_date.strftime("%Y-%m-%d %H:%M:%S"),
             "return_date":    return_date.strftime("%Y-%m-%d %H:%M:%S") if return_date else "",
         })
+
+    # Sort by borrow_date so IDs are chronologically sequential
+    rows.sort(key=lambda r: r["borrow_date"])
+    for i, row in enumerate(rows):
+        row["transaction_id"] = i + 1
 
     # dirty: missing book_id
     rows[0]["book_id"] = ""
