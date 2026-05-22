@@ -15,6 +15,9 @@ Libraries in schools and organizations often manage books and borrower records m
 - Dashboard with real-time stats (total books, available, borrowed, transactions)
 - Duplicate ISBN detection with error messages
 - Auto-close active transactions when a book is deleted
+- ETL pipeline with 3-CSV dataset upload (books, borrowers, transactions)
+- Analytics dashboard — most borrowed books, category trends, monthly trends, overdue transactions
+- Role-based UI (Admin: full access, User: borrow/return and search only)
 
 ## Technology Stack
 
@@ -38,7 +41,14 @@ AFDE_May26_ShriramKumar_LMS/
 │   ├── routers/
 │   │   ├── books.py
 │   │   ├── borrowers.py
-│   │   └── transactions.py
+│   │   ├── transactions.py
+│   │   └── analytics.py
+│   ├── etl/
+│   │   ├── generate_raw_datasets.py
+│   │   ├── extract.py
+│   │   ├── transform.py
+│   │   ├── load.py
+│   │   └── pipeline.py
 │   └── requirements.txt
 ├── frontend/
 │   ├── public/index.html
@@ -49,21 +59,26 @@ AFDE_May26_ShriramKumar_LMS/
 │       │   ├── Books.js
 │       │   ├── Borrowers.js
 │       │   ├── BorrowReturn.js
+│       │   ├── Analytics.js
 │       │   └── Search.js
 │       ├── services/
 │       │   ├── api.js
 │       │   ├── bookService.js
 │       │   ├── borrowerService.js
-│       │   └── transactionService.js
+│       │   ├── transactionService.js
+│       │   └── analyticsService.js
 │       ├── App.js
 │       ├── App.css
 │       └── index.js
+├── datasets/
+│   ├── books.csv
+│   ├── borrowers.csv
+│   └── transactions.csv
 ├── database/
 │   └── schema.sql
 ├── docs/
 │   └── api_documentation.md
 ├── screenshots/
-├── requirements.txt
 ├── README.md
 └── .gitignore
 ```
@@ -116,6 +131,11 @@ Schema reference: [`database/schema.sql`](database/schema.sql)
 | POST | /return | Return a book |
 | GET | /transactions | Get all transactions |
 | GET | /search?q= | Search books |
+| POST | /analytics/upload-and-run | Upload 3 CSVs and run ETL pipeline |
+| GET | /analytics/most-borrowed | Top 10 most borrowed books |
+| GET | /analytics/category-trends | Borrowing by category |
+| GET | /analytics/monthly-trends | Borrowing by month |
+| GET | /analytics/overdue | Overdue transactions |
 
 Full API documentation with request/response examples: [`docs/api_documentation.md`](docs/api_documentation.md)
 
@@ -130,3 +150,24 @@ Screenshots are available in the [`screenshots/`](screenshots/) folder.
 | books | book_id, title, author, category, isbn, availability_status |
 | borrowers | borrower_id, borrower_name, email, phone |
 | transactions | transaction_id, book_id, borrower_id, book_title, borrower_name, borrow_date, return_date |
+| analytics_transactions | id, transaction_id, book_id, borrower_id, book_title, borrower_name, category, borrow_date, return_date, is_overdue, days_borrowed, month_year |
+
+## ETL Pipeline
+
+Generate raw datasets with intentional dirty data, then upload via the Analytics page to run the ETL pipeline.
+
+```bash
+# From backend/ folder
+python -m etl.generate_raw_datasets
+```
+
+This creates 3 CSV files in `datasets/`:
+- `books.csv` — 20 books with dirty data (mixed case, whitespace, missing fields, duplicates)
+- `borrowers.csv` — 30 borrowers with dirty data
+- `transactions.csv` — 160 transactions with dirty data (invalid refs, bad dates, duplicates)
+
+**Upload via UI:** Go to Analytics page → upload all 3 CSVs → click Upload & Run ETL.
+
+The pipeline cleans the data (Extract → Transform → Load) and populates:
+- `books`, `borrowers`, `transactions` tables (skips existing records)
+- `analytics_transactions` table (cleared and reloaded each run)

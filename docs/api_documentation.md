@@ -250,6 +250,79 @@ Search books by title, author, or category (case-insensitive).
 
 ---
 
+## Analytics API
+
+### POST /analytics/upload-and-run
+Upload 3 CSV files and run the ETL pipeline. Cleans and loads data into all operational tables and `analytics_transactions`.
+
+**Request:** `multipart/form-data` with fields:
+- `books_file` — books.csv
+- `borrowers_file` — borrowers.csv
+- `transactions_file` — transactions.csv
+
+**Response:**
+```json
+{
+  "message": "ETL completed. 153 records loaded.",
+  "count": 153
+}
+```
+
+---
+
+### GET /analytics/most-borrowed
+Top 10 most borrowed books.
+
+**Response:**
+```json
+[
+  { "book_title": "Clean Code", "category": "Programming", "borrow_count": 12 }
+]
+```
+
+---
+
+### GET /analytics/category-trends
+Borrow count grouped by book category.
+
+**Response:**
+```json
+[
+  { "category": "Programming", "borrow_count": 45 }
+]
+```
+
+---
+
+### GET /analytics/monthly-trends
+Borrow count grouped by month.
+
+**Response:**
+```json
+[
+  { "month_year": "2025-06", "borrow_count": 18 }
+]
+```
+
+---
+
+### GET /analytics/overdue
+All transactions not returned after 30+ days.
+
+**Response:**
+```json
+[
+  {
+    "transaction_id": 5,
+    "book_title": "Deep Learning",
+    "borrower_name": "John Doe",
+    "borrow_date": "2025-03-01T10:00:00"
+  }
+]
+```
+
+---
+
 ## Error Responses
 
 | Status Code | Meaning |
