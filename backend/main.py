@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from typing import List
 import models, schemas, crud
 from database import engine, get_db
-from routers import books, borrowers, transactions
+from routers import books, borrowers, transactions, analytics
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -21,6 +21,7 @@ app.add_middleware(
 app.include_router(books.router)
 app.include_router(borrowers.router)
 app.include_router(transactions.router)
+app.include_router(analytics.router)
 
 
 @app.get("/search", response_model=List[schemas.Book])

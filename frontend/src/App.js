@@ -8,6 +8,7 @@ import Books from './pages/Books';
 import Borrowers from './pages/Borrowers';
 import BorrowReturn from './pages/BorrowReturn';
 import Search from './pages/Search';
+import Analytics from './pages/Analytics';
 
 function App() {
   const [role, setRole] = useState(null);
@@ -26,6 +27,7 @@ function App() {
             <Route path="/books" element={<Books />} />
             <Route path="/borrowers" element={<Borrowers />} />
             <Route path="/borrow-return" element={<BorrowReturn />} />
+            <Route path="/analytics" element={<Analytics />} />
             <Route path="/search" element={<Search />} />
           </>
         )}

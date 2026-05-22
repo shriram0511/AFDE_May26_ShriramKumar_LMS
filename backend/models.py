@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, Integer, String, DateTime, Boolean
 from sqlalchemy.sql import func
 from database import Base
 
@@ -33,3 +33,20 @@ class Transaction(Base):
     borrower_name = Column(String, nullable=False)
     borrow_date = Column(DateTime, default=func.now())
     return_date = Column(DateTime, nullable=True)
+
+
+class AnalyticsTransaction(Base):
+    __tablename__ = "analytics_transactions"
+
+    id = Column(Integer, primary_key=True, index=True)
+    transaction_id = Column(Integer)
+    book_id = Column(Integer)
+    borrower_id = Column(Integer)
+    book_title = Column(String, default="Unknown")
+    borrower_name = Column(String, default="Unknown")
+    category = Column(String, default="Unknown")
+    borrow_date = Column(DateTime)
+    return_date = Column(DateTime, nullable=True)
+    is_overdue = Column(Boolean, default=False)
+    days_borrowed = Column(Integer, nullable=True)
+    month_year = Column(String)

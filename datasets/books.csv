@@ -1,0 +1,24 @@
+book_id,title,author,category,isbn
+17,Algorithms Unlocked,Thomas H. Cormen,Computer Science,9780262518802
+16,The Great Gatsby,F. Scott Fitzgerald,Fiction,9780743273565
+3,Introduction to Algorithms,Thomas H. Cormen,computer science,9780262033848
+15,To Kill a Mockingbird,Harper Lee,Fiction,9780061935466
+6,Design Patterns,  Gang of Four  ,Software Engineering,9780201633610
+14,1984,George Orwell,Fiction,9780451524935
+18,Machine Learning,Tom M. Mitchell,Artificial Intelligence,9780070428072
+13,Sapiens,Yuval Noah Harari,History,9780062316097
+11,The Art of War,Sun Tzu,Philosophy,9781599869773
+7,The Clean Coder,Robert C. Martin,Programming,9780137081073
+10,Thinking Fast and Slow,,Psychology,9780374533557
+2,The Pragmatic Programmer,David Thomas,Programming,9780201616224
+20,JavaScript: The Good Parts,Douglas Crockford,Programming,9780596517748
+12,Rich Dad Poor Dad,Robert Kiyosaki,Finance,9781612680194
+11,The Art of War,Sun Tzu,Philosophy,9781599869773
+4,Python Crash Course,Eric Matthes,Programming,9781593276034
+5,  Atomic Habits  ,James Clear,Self Development,9780735211292
+19,SQL in 10 Minutes,Ben Forta,Database,9780135182796
+8,Deep Learning,Ian Goodfellow,artificial intelligence,9780262035613
+9,Data Structures,,Computer Science,9780132576277
+1,Clean Code,Robert C. Martin,PROGRAMMING,9780132350884
+4,Python Crash Course,Eric Matthes,Programming,9781593276034
+1,Clean Code,Robert C. Martin,PROGRAMMING,9780132350884

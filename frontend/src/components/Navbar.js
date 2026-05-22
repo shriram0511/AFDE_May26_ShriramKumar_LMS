@@ -12,6 +12,7 @@ function Navbar({ role, onSwitch }) {
             <NavLink to="/books" className={({ isActive }) => isActive ? 'active' : ''}>📖 Books</NavLink>
             <NavLink to="/borrowers" className={({ isActive }) => isActive ? 'active' : ''}>👥 Borrowers</NavLink>
             <NavLink to="/borrow-return" className={({ isActive }) => isActive ? 'active' : ''}>🔄 Transactions</NavLink>
+            <NavLink to="/analytics" className={({ isActive }) => isActive ? 'active' : ''}>📈 Analytics</NavLink>
             <NavLink to="/search" className={({ isActive }) => isActive ? 'active' : ''}>🔎 Search</NavLink>
           </>
         )}
